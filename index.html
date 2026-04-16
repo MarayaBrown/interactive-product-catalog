@@ -1,19 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Articulos de Jardin</title>
+    <title>Jardín Store - Catálogo de Productos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script defer src="index.js"></script>
-    
 </head>
 <body>
-    <h1>Articulos de Jardin</h1>
-    <p>Articulos para jardin a la venta. Ventas al interior y exterior. Envios sin cargo a todo el pais.</p>
-    <div id="articulos">
-        
-    </div>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <span class="logo-icon">🌿</span>
+                <h1>Jardín Store</h1>
+            </div>
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="Buscar productos..." class="search-input">
+                <span class="search-icon">🔍</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <section class="hero">
+            <h2>Todo para tu jardín</h2>
+            <p>Encontrá los mejores artículos para transformar tu espacio exterior</p>
+        </section>
+
+        <div id="articulos" class="products-grid">
+        </div>
+
+        <div id="no-results" class="no-results" style="display: none;">
+            <p>No se encontraron productos que coincidan con tu búsqueda</p>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>© 2024 Jardín Store - Envíos a todo el país</p>
+    </footer>
 </body>
 </html>
