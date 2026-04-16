@@ -8,7 +8,7 @@ A dynamic product catalog built with JavaScript that allows users to browse, fil
 
 👉 https://marayabrown.github.io/interactive-product-catalog/
 
-**Vercel Preview:** https://ADD-VERCEL-LINK-HERE
+**Vercel Preview:** https://interactive-product-catalog-alpha.vercel.app/
 
 ---
 
