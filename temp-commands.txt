@@ -1,2 +1,0 @@
-goto https://marayabrown.github.io/interactive-product-catalog/
-screenshot /tmp/catalog.png
