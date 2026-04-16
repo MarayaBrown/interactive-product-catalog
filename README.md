@@ -6,7 +6,7 @@ A dynamic product catalog built with JavaScript that allows users to browse, fil
 
 ## 🌐 Live Demo
 
-👉 https://TU-LINK-AQUI
+👉 https://marayabrown.github.io/interactive-product-catalog/
 
 ---
 
