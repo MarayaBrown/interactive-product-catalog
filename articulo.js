@@ -1,3 +1,18 @@
+function escapeHtml(text) {
+    const div = document.createElement('div')
+    div.textContent = text
+    return div.innerHTML
+}
+
+function showErrorAndRedirect(message) {
+    document.getElementById('informacion').innerHTML = `
+        <div class="error-state">
+            <p>❌ ${message}</p>
+            <a href="index.html" class="back-btn">Volver al catálogo</a>
+        </div>
+    `
+}
+
 class Info {
     constructor(items) {
         this.items = items
@@ -5,20 +20,19 @@ class Info {
 
     htmlCode() {
         this.items.map(elemento => {
-            document.querySelector('head').innerHTML += `
-                <title>${elemento.producto} - Jardín Store</title>
-            `
-            document.querySelector('#informacion').innerHTML += `
+            document.title = `${escapeHtml(elemento.producto)} - Jardín Store`
+            
+            document.getElementById('informacion').innerHTML = `
             <div class='product-card'>
                 <div class="product-image-container">
-                    <img src='${elemento.img}' alt='${elemento.producto}' class="product-image">
+                    <img src='${escapeHtml(elemento.img)}' alt='${escapeHtml(elemento.producto)}' class="product-image">
                 </div>
                 <div class="product-info">
-                    <h1>${elemento.producto}</h1>
-                    <p class="product-description">${elemento.descripcion}</p>
+                    <h1>${escapeHtml(elemento.producto)}</h1>
+                    <p class="product-description">${escapeHtml(elemento.descripcion)}</p>
                     <div class="product-details">
                         <h3>Detalles:</h3>
-                        <p>${elemento.detalles}</p>
+                        <p>${escapeHtml(elemento.detalles)}</p>
                     </div>
                     <div class="product-price">$ ${elemento.precio.toLocaleString('es-AR')}</div>
                     <button class="back-btn">
@@ -31,8 +45,21 @@ class Info {
     }
 }
 
-const arrayInfo = JSON.parse(localStorage.getItem('infoUsuario'))
+const storedData = localStorage.getItem('infoUsuario')
 
-const info = new Info(arrayInfo)
-
-info.htmlCode()
+if (!storedData) {
+    showErrorAndRedirect('No se encontró información del producto')
+} else {
+    try {
+        const arrayInfo = JSON.parse(storedData)
+        
+        if (!arrayInfo || arrayInfo.length === 0) {
+            showErrorAndRedirect('El producto no está disponible')
+        } else {
+            const info = new Info(arrayInfo)
+            info.htmlCode()
+        }
+    } catch (error) {
+        showErrorAndRedirect('Error al cargar los datos del producto')
+    }
+}

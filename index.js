@@ -4,9 +4,43 @@ const noResults = document.querySelector('#no-results')
 const info = []
 let allProducts = []
 
-localStorage.removeItem("infoUsuario");
+const CONFIG = {
+    STORAGE_KEY: 'infoUsuario',
+    DETAIL_PAGE: 'articulo.html'
+}
+
+localStorage.removeItem(CONFIG.STORAGE_KEY);
+
+function createToast(message, type = 'error') {
+    const toast = document.createElement('div')
+    toast.className = `toast toast-${type}`
+    toast.textContent = message
+    document.body.appendChild(toast)
+    setTimeout(() => toast.classList.add('toast-show'), 10)
+    setTimeout(() => {
+        toast.classList.remove('toast-show')
+        setTimeout(() => toast.remove(), 300)
+    }, 3000)
+}
+
+function showLoading() {
+    main.innerHTML = `
+        <div class="loading-state">
+            <div class="loading-spinner"></div>
+            <p>Cargando productos...</p>
+        </div>
+    `
+}
+
+function escapeHtml(text) {
+    const div = document.createElement('div')
+    div.textContent = text
+    return div.innerHTML
+}
 
 async function get() {
+    showLoading()
+    
     try {
         let response = await fetch('articulos.json')
         if (response.ok) {
@@ -15,10 +49,16 @@ async function get() {
             renderProducts(data)
             setupSearch()
         } else {
-            new Error('Error en la solicitud' + response.statusText)
+            throw new Error('Error en la solicitud: ' + response.statusText)
         }
     } catch (error) {
-        alert(error.message)
+        main.innerHTML = `
+            <div class="error-state">
+                <p>❌ Error al cargar los productos</p>
+                <button onclick="get()" class="retry-btn">Reintentar</button>
+            </div>
+        `
+        createToast('Error al cargar los productos', 'error')
     }
 }
 
@@ -32,18 +72,20 @@ function renderProducts(products) {
     
     noResults.style.display = 'none'
     
-    products.forEach(element => {
+    const html = products.map(element => {
         const { producto, descripcion, precio, img, id } = element
-        main.innerHTML += `
+        return `
             <div class='cardProduct' data-id='${id}'>
-                <img src='${img}' alt='${producto}'>
-                <h2>${producto}</h2>
-                <p>${descripcion}</p>
-                <span class='price'>$${precio}</span>
+                <img src='${escapeHtml(img)}' alt='${escapeHtml(producto)}'>
+                <h2>${escapeHtml(producto)}</h2>
+                <p>${escapeHtml(descripcion)}</p>
+                <span class='price'>$${precio.toLocaleString('es-AR')}</span>
                 <button class='btn' id='${id}'>Ver más información</button>
             </div>
         `
-    })
+    }).join('')
+    
+    main.innerHTML = html
     
     setupButtons()
 }
@@ -62,20 +104,20 @@ function setupSearch() {
 }
 
 function setupButtons() {
-    let botones = document.querySelectorAll('.btn')
+    const botones = document.querySelectorAll('.btn')
     
     for (const btn of botones) {
         btn.addEventListener('click', (evento) => {
             evento.stopPropagation()
-            let resultado = allProducts.find(el => el.id == evento.target.id)
+            const resultado = allProducts.find(el => el.id == evento.target.id)
             
-            if (resultado == undefined) {
-                alert('Ocurrió un error')
+            if (resultado === undefined) {
+                createToast('Ocurrió un error', 'error')
             } else {
                 info.length = 0
                 info.push(resultado)
-                localStorage.setItem('infoUsuario', JSON.stringify(info))
-                window.open('articulo.html', "_self");
+                localStorage.setItem(CONFIG.STORAGE_KEY, JSON.stringify(info))
+                window.open(CONFIG.DETAIL_PAGE, '_self')
             }
         })
     }
