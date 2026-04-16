@@ -8,6 +8,8 @@ A dynamic product catalog built with JavaScript that allows users to browse, fil
 
 👉 https://marayabrown.github.io/interactive-product-catalog/
 
+**Vercel Preview:** https://ADD-VERCEL-LINK-HERE
+
 ---
 
 ## 🧠 About the Project
@@ -20,18 +22,21 @@ The application simulates a real-world product catalog where users can explore i
 
 ## ⚙️ Tech Stack
 
-* HTML
-* CSS
+* HTML5
+* CSS3
 * JavaScript (Vanilla)
 
 ---
 
 ## ✨ Key Features
 
-* 📦 Dynamic product rendering
-* 🔍 Filtering and interaction based on user input
-* ⚡ Real-time UI updates without page reload
-* 🧩 DOM manipulation for content management
+* 📦 Dynamic product rendering from JSON data
+* 🔍 Real-time search and filtering
+* 🛍️ Product detail pages with localStorage
+* 📱 Responsive design (mobile-first)
+* ⚡ Smooth animations and transitions
+* 🔒 XSS protection with escapeHtml()
+* 🎨 Toast notifications system
 
 ---
 
@@ -41,6 +46,7 @@ The application simulates a real-world product catalog where users can explore i
 * DOM manipulation is used to update the interface based on user actions
 * Event listeners handle user interaction and trigger UI changes
 * Separation between data structure and UI rendering logic
+* LocalStorage for passing data between pages
 
 ---
 

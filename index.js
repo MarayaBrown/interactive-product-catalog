@@ -1,6 +1,7 @@
 const main = document.querySelector('#articulos')
 const searchInput = document.querySelector('#search-input')
 const noResults = document.querySelector('#no-results')
+const productCountEl = document.querySelector('#product-count')
 const info = []
 let allProducts = []
 
@@ -66,11 +67,15 @@ function renderProducts(products) {
     main.innerHTML = ''
     
     if (products.length === 0) {
-        noResults.style.display = 'block'
+        noResults.style.display = 'flex'
+        productCountEl.textContent = '0 productos'
         return
     }
     
     noResults.style.display = 'none'
+    
+    const countText = products.length === 1 ? '1 producto' : `${products.length} productos`
+    productCountEl.textContent = countText
     
     const html = products.map(element => {
         const { producto, descripcion, precio, img, id } = element
@@ -104,21 +109,22 @@ function setupSearch() {
 }
 
 function setupButtons() {
-    const botones = document.querySelectorAll('.btn')
+    const buttons = document.querySelectorAll('.btn')
     
-    for (const btn of botones) {
-        btn.addEventListener('click', (evento) => {
-            evento.stopPropagation()
-            const resultado = allProducts.find(el => el.id == evento.target.id)
+    for (const btn of buttons) {
+        btn.addEventListener('click', (event) => {
+            event.stopPropagation()
+            const product = allProducts.find(el => el.id == event.target.id)
             
-            if (resultado === undefined) {
+            if (!product) {
                 createToast('Ocurrió un error', 'error')
-            } else {
-                info.length = 0
-                info.push(resultado)
-                localStorage.setItem(CONFIG.STORAGE_KEY, JSON.stringify(info))
-                window.open(CONFIG.DETAIL_PAGE, '_self')
+                return
             }
+            
+            info.length = 0
+            info.push(product)
+            localStorage.setItem(CONFIG.STORAGE_KEY, JSON.stringify(info))
+            window.open(CONFIG.DETAIL_PAGE, '_self')
         })
     }
 }
