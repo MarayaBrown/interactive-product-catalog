@@ -55,7 +55,8 @@ The application simulates a real-world product catalog where users can explore i
 
 ## 🎥 Preview
 
-*(Add a GIF or screenshots here showing the app in action)*
+![Catálogo](./screenshots/catalog.png)
+![Detalle de producto](./screenshots/product-detail.png)
 
 ---
 
